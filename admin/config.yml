@@ -8,6 +8,7 @@ backend:
   repo: alonrotem/jekyll-self-build # Path to your GitHub repository
   # optional, defaults to master
   branch: work
+  base_url: "https://salmon-xerus-tutu.cyclic.app/"
 
 media_folder: 'assets/uploads'
 collections:
