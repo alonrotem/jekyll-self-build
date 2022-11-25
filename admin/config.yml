@@ -17,4 +17,4 @@ collections:
     folder: '_posts/'
     fields:
       - { name: Title }
-    create: true,
+    create: true
