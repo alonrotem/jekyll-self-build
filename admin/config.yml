@@ -12,9 +12,9 @@ backend:
 
 media_folder: 'assets/uploads'
 collections:
-  - name: 'blog'
-    label: 'Blog'
+  - name: 'post'
+    label: 'Post'
     folder: '_posts/'
     fields:
-      - { name: Title }
+      - { title: Title }
     create: true
