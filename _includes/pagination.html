@@ -1,0 +1,72 @@
+{% assign prevlabel = "Назад" %}
+{% assign nextalbel = "Напред" %}
+{% assign totalpages = totalpages %} <!--new plugin-->
+{% assign totalpages = paginator.total_pages %} <!--old plugin-->
+
+{% if totalpages > 1 %}
+<div class="pagination">
+
+  <!-- Prev -->
+  {% if paginator.previous_page %}
+    <a  class="ml-1 mr-1" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; {{ prevlabel }}</a>
+  {% else %}
+    <span>&laquo; {{ prevlabel }}</span>
+  {% endif %}
+
+{% assign iterator = 1 %}
+{% assign lastThree = totalpages | minus: 3 %}
+{% assign lastSeven = totalpages | minus: 6 %}
+
+<!-- always print first 3 -->
+{% assign lastInSegment = totalpages | at_most: 3 %}
+{% for page in (1..lastInSegment) %}
+  {% include paginator-num.html pg=page activePage=paginator.page totalpages=totalpages %}
+  {% assign iterator = page  %}
+{% endfor %}
+
+<!-- if the current page is within the first 7, print them too -->
+{% if paginator.page >= 1 and paginator.page <= 7 %}
+  {% assign lastInSegment = totalpages | at_most: 7 %}
+  {% for page in (4..lastInSegment) %}
+    {% include paginator-num.html pg=page activePage=paginator.page totalpages=totalpages %}
+    {% assign iterator = page  %}
+  {% endfor %}
+  <!-- if the current page IS 7, print 2 more -->
+  {% if paginator.page == 7 %}
+    {% include paginator-num.html pg=8 activePage=paginator.page totalpages=totalpages %}
+    {% include paginator-num.html pg=9 activePage=paginator.page totalpages=totalpages %}
+  {% endif %}
+
+<!-- if the current page is between the 8 and the last 3, print ...[3 before][cur][3 after] -->
+{% elsif paginator.page >= 8 and paginator.page < lastThree  %}
+  ...
+  {% assign fr = paginator.page | minus: 3 %}
+  {% assign to = paginator.page | plus: 3 %}
+  {% for page in (fr..to) %}
+    {% include paginator-num.html pg=page activePage=paginator.page totalpages=totalpages %}
+    {% assign iterator = page  %}
+  {% endfor %}
+{% endif %}
+
+<!-- if we have not printed the last page, add ... if needed and the last 3 pages -->
+{% if iterator < totalpages %}
+  {% if iterator <= lastThree %}
+  ...
+  {% endif %}
+
+  {% for page in (lastThree.. totalpages) %}
+    {% include paginator-num.html pg=page activePage=paginator.page totalpages=totalpages %}
+    {% assign iterator = page  %}
+  {% endfor %}
+{% endif %}
+
+
+  <!-- Next -->
+  {% if paginator.next_page %}
+    <a  class="ml-1 mr-1" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">{{ nextalbel }} &raquo;</a>
+  {% else %}
+    <span>{{ nextalbel }} &raquo;</span>
+  {% endif %}
+
+</div>
+{% endif %}

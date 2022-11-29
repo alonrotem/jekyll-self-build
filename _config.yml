@@ -1,55 +1,80 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-#
-# If you need help with YAML syntax, here are some quick references for you:
-# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
-# https://learnxinyminutes.com/docs/yaml/
-#
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
+# Site
+name: "Литературни разговори"
+description: "с Антония Апостолова"
+mainlink: "https://www.facebook.com/literaturnirazgovori/"
+meta_description: "Литературни разговори с Антония Апостолова"
+logo: "assets/images/logo-book.png"
+favicon: "assets/images/logo-book.png"
+baseurl: ""
+google_analytics: UA-132938422-1
+disqus: "literaturnirazgovori"
+mailchimp-list: "https://wowthemes.us11.list-manage.com/subscribe/post?u=8aeb20a530e124561927d3bd8&amp;id=8c3d2d214b"
+encoding: utf-8
+fb_app_id: "405644126912554"
+analytics_proxy_url: "https://warm-woodland-78106.herokuapp.com"
 
-title: Your awesome title
-email: your-email@example.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+ozone_banner_enabled: true
+ozone_banner_text: "Купи книгата от"
+ozone_banner_link_suffix: "?utm_campaign=book-link&utm_medium=affiliate&utm_source=lrazgovori"
 
-# Build settings
-theme: minima
+
+# Authors
+authors:
+  Antonia:
+    name: Antonia
+    display_name: Антония Апостолова
+    photo: /assets/images/author-antonia.png
+    email: antonia@literaturnirazgovori.com
+    web: https://www.facebook.com/literaturnirazgovori/
+  Guest:
+    name: Guest
+    display_name: Гост-автор
+    photo: /assets/images/author-guest.png
+
+# Plugins
 plugins:
-  - jekyll-feed
+#  - jekyll-paginate-v2
+  - jekyll-paginate
+  - jekyll-archives
 
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+
+# Archives
+jekyll-archives:
+  enabled:
+    - tags
+  layout: tag
+  permalinks:
+    category: "/tag/:name/"
+
+# Pagination
+# Page by page (old plugin)
+# Using the old plugin (jekyll-paginate and not jekyll-paginate-v2), 
+# because the new one renders an index.html file per each page, including the main page, which is /index.html
+# hence, the main page gets overriden (e.g. on the homepage there is a donation banner, which does not appear on the other pages,
+# but the new plugin overrides this file, with a "regular" page file, hence the banner is not there).
+paginate: 18
+paginate_path: /page/:num/
+
+# Infinite scroll (new plugin)
+#pagination:
+#  enabled: true
+#  per_page: 18
+##  sort_reverse: true
+#  permalink: '/page/:num/'
+##  extension: json
+
+# Other
+markdown: kramdown
+highlighter: rouge
+
+collections:
+  category:
+    output: true
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: category
+    values:
+      layout: "category"

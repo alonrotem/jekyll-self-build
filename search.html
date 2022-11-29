@@ -1,0 +1,110 @@
+---
+layout: default
+title: Търсене
+---
+
+<head>
+    <script src="/assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/search-json.js" type="text/javascript"></script>
+    <script src="/assets/js/search-script.js" type="text/javascript"></script>
+
+    <script>
+        var itemTemplate = `
+
+    <div class="postlistitem row">
+        <div class="col-6 col-lg-2 col-md-4 col-sm-6 col-xs-6 postlistitem-imagecontainer">
+            <a href="{url}">
+            <div class="square postlistitemimage {category}" style="background-image: url('{image}');"></div>
+            </a>
+        </div>
+
+        <div class="col-6 col-lg-10 col-md-8 col-sm-6 col-xs-6 postlistitem-infocontainer">
+            <div class="align-self-start">
+                <a href="{url}">
+                <div class="postlistitem-title">{title}</div>
+
+                <div class="postlistitem-subtitle">
+                    <span class="postlistitem-subtitle-concat">
+                        {subtitle}
+                    </span></div>
+                </a>
+            </div>
+            <div class="postlistitem-bottominfo" style="width:100%; padding-right:25px;">
+                {author}
+                <span class="post-date">
+                    {date}
+                </span>
+                <span class="postcategory">{category}</span>
+            </div>
+        </div>
+    </div>`;
+        var authors = {{ site.authors | jsonify }};
+        var months = {{ site.data.months  | jsonify }};
+        var categoriestext = {{ site.data.categoriestext | jsonify }};
+
+        function searchresultMiddleware(prop, value, template) {
+            switch (prop) {
+                case 'author':
+                    return authors[value].display_name;
+                case 'date':
+                    var dateMatch = value.match("\\d{4}\\-\\d{2}\\-\\d{2}");
+                    if(dateMatch && dateMatch.length)
+                    {
+                        var date = new Date(dateMatch[0]);
+                        var day = date.getDate();
+                        var monthIndex = date.getMonth();
+                        var year = date.getFullYear();
+                        return day + ' ' + months[monthIndex + 1] + ' ' + year;
+                    }
+                    else
+                    {
+                        return '';
+                    }
+                case 'category':
+                    return "<a href='/category/" + value + "'>" + categoriestext[value].text + "</a>";
+            }
+        }
+
+        function bodyloaded() {
+            var searchbox = document.getElementById("search-text");
+            searchbox.value = getUrlParameter("search");
+
+
+            /*
+            var sjs = new SimpleJekyllSearch({
+                searchInput: document.getElementById('search-text'),
+                resultsContainer: document.getElementById('results-container'),
+                json: search_json_index
+            });
+            */
+
+            window.simpleJekyllSearch = new SimpleJekyllSearch({
+                searchInput: document.getElementById('search-text'),
+                resultsContainer: document.getElementById('results-container'),
+                json: search_json_index,
+                searchResultTemplate: itemTemplate,
+                templateMiddleware: searchresultMiddleware,
+                noResultsText: '<p style="font-family: B52; font-size: 17pt;">Няма резултати.</p>',
+                fuzzy: false
+            });
+            setTimeout(() => {
+                window.simpleJekyllSearch.search(getUrlParameter("search"));
+                $("#loading").hide();
+                $("#search-container").show();
+                $("#search-text").focus();
+            }, 500);
+        }
+    </script>
+</head>
+
+<body onload="bodyloaded()">
+    <div id="loading" style="display:block;">
+        <img src="/assets/images/pleaseWaitBookBW.gif" style="width:128px; height:128px;display:block; margin:auto;">
+    </div>
+    <div id="search-container" style="display:none;">
+        <div class="categorylist">
+            <div class="container" id="results-container">
+            </div>
+        </div>
+    </div>
+</body>

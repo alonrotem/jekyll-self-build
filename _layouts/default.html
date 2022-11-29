@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <link rel="icon" href="{{ site.baseurl }}/assets/images/logo-book.png" />
+
+  <title>{{ page.title }} | {{ site.name }}</title>
+
+  {% if page.description %}
+  <meta name="description" content="{{ page.description }}" />
+  {% endif %}
+
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/bootstrap.min.css" />
+
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/font-awesome.css" />
+
+  <link href="{{ site.baseurl }}/assets/css/google-font-faces.css" rel="stylesheet" />
+
+  <!--Analytics, according to the runtime environment (auto-set by gh-pages). See: https://jekyllrb.com/docs/configuration/environments/-->
+  {% if site.google_analytics and jekyll.environment == "production" %}
+  {% include analytics.html %}
+  {% endif %}
+
+  <!-- social media SEO -->
+  {% assign pagecategory="" %}
+  {% if page.category and site.data.categoriestext[page.category] %}
+  {% assign pagecategory=site.data.categoriestext[page.category].name%}
+  {% assign pagecategorytext=site.data.categoriestext[page.category].text%}
+  {% endif %}
+
+  {% if jekyll.environment == "production" %}
+  {% assign siteurl="https://literaturnirazgovori.com" %}
+  {%else%}
+  {% assign siteurl = site.url %}
+  {% endif %}
+
+  {% if page.url contains '://' %}
+  {% assign currentUrl = page.url %}
+  {%else%}
+  {% assign currentUrl = page.url | prepend: siteurl %}
+  {% endif %}
+
+  {% if page.image %}
+    {% assign featuredImage = page.image %}
+    {% unless featuredImage contains '://' %}
+      {% assign firstchar = featuredImage | slice: 0 %}
+      {% if firstchar != "/" %}{% assign featuredImage = featuredImage | prepend: "/" %}{% endif %}
+      {% assign featuredImage = featuredImage | prepend: siteurl %}
+    {% endunless %}
+  {% endif %}
+
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{ currentUrl }}" />
+  {% if featuredImage %}
+  <meta property="og:image" content="{{ featuredImage }}" />
+  {% endif %}
+  {% if page.seo_title %}
+  <meta property="og:title" content="{{ page.seo_title | escape }}" />
+  {% else if page.title %}
+  <meta property="og:title" content="{{ page.title | escape }}" />
+  {% else %}
+  <meta property="og:title" content="{{ site.name | escape }}" />
+  {% endif %}
+  {% if page.subtitle %}
+  <meta property="og:description" content="{{ page.subtitle | escape }}" />
+  {% endif %}
+  {% if site.fb_app_id %}
+  <meta property="fb:app_id" content="{{site.fb_app_id}}" />
+  {% endif %}
+
+  <script src="{{ site.baseurl }}/assets/js/jquery.min.js"></script>
+  <link href="{{ site.baseurl }}/assets/css/screen.css" rel="stylesheet" />
+  <link href="{{ site.baseurl }}/assets/css/main.css" rel="stylesheet" />
+  <link href="{{ site.baseurl }}/assets/css/lightbox.min.css" rel="stylesheet" />
+  <script src="{{ site.baseurl }}/assets/js/lightbox.min.js"></script>
+
+  <script>
+    $(function() {
+      $('.article-post img').wrap(function(index) { return '<a href="'+$(this).attr('src')+'" data-lightbox="image-1"></a>'; });
+    });
+  </script>
+  <script src="{{ site.baseurl }}/assets/js/utils.js"></script>
+</head>
+<body>
+
+<div class="whole-body-wrapper">
+<!-- ======== Facebook banner ========-->
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v4.0&appId=383087475054247&autoLogAppEvents=1"></script>
+<!-- ========/Facebook banner ========-->
+
+{% capture layout %}{% if page.layout %}layout-{{
+page.layout
+}}{% endif %}{% endcapture %}
+
+<!-- Begin Menu Navigation
+================================================== -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+  <div class="container-fluid pr-0 navbar-container">
+    <!-- Begin Logo -->
+    <!-- UNHIDE THE CMS -->
+    <a class="navbar-brand" href="{{ site.baseurl }}/">
+      <img src="{{ site.baseurl }}/{{ site.logo }}" alt="{{ site.name }}" />
+    </a>
+
+    {% unless page.url contains "/search" %}
+    <form id="mobilesearchbar" action="/search">
+      <input type="text" class="searchinput" name="search" />
+    </form>
+    {% endunless %}
+    <!-- End Logo -->
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish, #secondrowmenu" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse flex-column" id="navbarMediumish">
+      <!-- Begin Menu -->
+
+    <!-- Page category, if applicable -->
+    {% assign pagecat = page.url | split: '/category/' %}
+    {% if pagecat.size == 2 %}
+      {% assign pagecat =  pagecat[1] %}
+      {% assign pagecatsplitslash = pagecat | split: '/' %}
+      {% if pagecat.size > 1 %}
+        {% assign pagecat =  pagecatsplitslash[0] %}
+      {% endif %}
+    {% else %}
+    {% assign pagecat =  "" %}
+    {% endif %}
+
+    <!-- UNHIDE THE CMS -->
+    <ul class="navbar-nav navbarlist" style="align-items: center;">
+
+      <li class="nav-item {% if pagecat=='mybooks' %}active{% endif %}">
+        <a class="nav-link" href="{{ site.baseurl }}/category/mybooks"><strong>М</strong>оите книги</a>
+      </li>
+
+      
+      <li class="nav-item {% if pagecat=='bookreviews' %}active{% endif %}">
+        <a class="nav-link" href="{{ site.baseurl }}/category/bookreviews"><strong>Р</strong>ецензии</a>
+      </li>
+
+      <li class="nav-item {% if pagecat=='newbooks' %}active{% endif %}">
+        <a class="nav-link" href="{{ site.baseurl }}/category/newbooks"><strong>Н</strong>ови книги</a>
+      </li>
+
+      <li class="nav-item {% if pagecat=='interviews' %}active{% endif %}">
+        <a class="nav-link" href="{{ site.baseurl }}/category/interviews"><strong>И</strong>нтервюта</a>
+      </li>
+
+      <li class="nav-item {% if pagecat=='kolonkata-na-georgi-cankov' %}active{% endif %} kolonkata-na-georgi-cankov">
+        <a class="nav-link" href="{{ site.baseurl }}/category/kolonkata-na-georgi-cankov"><strong>К</strong>олонката на Георги Цанков</a>
+      </li>
+
+      <li class="nav-item {% if pagecat=='translations' %}active{% endif %}">
+        <a class="nav-link" href="{{ site.baseurl }}/category/translations"><strong>П</strong>реводи</a>
+      </li>
+    </ul>
+    <!-- End Menu -->
+
+    <!-- Second row menu-->
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="secondrowmenu">
+      <!-- 2nd menu row links -->
+      <ul class="navbar-nav flex-row mb-2 mr-auto">
+        <li class="nav-item {% if pagecat=='talks' %}active{% endif %}">
+          <a class="nav-link" href="{{ site.baseurl }}/category/talks"><strong>Р</strong>азговори за писането с български автори</a>
+        </li>
+      </ul>
+      <!-- 2nd menu row icons -->
+
+      <div class="navbar-collapse collapse order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+          <li id="menubarsearch">
+            <img src="/assets/images/search-glass.png" alt="Търсене">
+          </li>
+
+          <li class="nav-item">
+            <a target="_blank" class="nav-link" href="{{ site.mainlink }}"><i class="fab fa-facebook-f" style="color:#3C5A99;"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div><!--#navbarMediumish-->
+</div><!--navbar-container-->
+</nav>
+<!-- End Navigation
+================================================== -->
+
+<div class="site-content">
+
+  <div class="container">
+
+    <!-- Christmas decorations -->
+      <div class="christmas christmasLights">
+        <div class="light">
+          <ul class="line">
+              <li class="red"></li>
+              <li class="yellow"></li>
+              <li class="blue"></li>
+              <li class="pink"></li>
+              <li class="red"></li>
+              <li class="green"></li>
+              <li class="blue light-540"></li>
+              <li class="yellow light-540"></li>
+              <li class="red light-540"></li>
+              <li class="pink light-540"></li>
+              <li class="blue light-540"></li>
+              <li class="yellow light-770"></li>
+              <li class="red light-770"></li>
+              <li class="green light-770"></li>
+              <li class="blue light-990"></li>
+              <li class="yellow light-990"></li>
+              <li class="red light-990"></li>
+              <li class="pink light-990"></li>
+              <li class="green light-990"></li>
+              <li class="blue light-1200"></li>
+              <!--
+              <li class="pink"></li>
+              <li class="red"></li>
+              <li class="green"></li>
+              <li class="blue"></li>
+              -->
+          </ul>
+      </div>
+      </div>
+    <!-- Christmas decorations -->
+
+
+    <!-- Site Title
+================================================== -->
+    <div class="mainheading mainheadingflex">
+      <span class="sitetitlecontainer">
+        <span class="sitetitle">
+
+          <img src="{{ site.baseurl }}/assets/images/santa-hat.png" class="christmas christmas-hat">
+
+          <a href="{{ site.baseurl }}/">{{ site.name }}</a>
+          <div class="lead">
+            {% if site.mainlink %}
+            <a href="{{ site.mainlink }}" target="_blank">
+              {% endif %}
+              {{ site.description }} {% if site.mainlink %}
+              <img src="{{ site.baseurl }}/assets/images/facebook.png" />
+            </a>{% endif %}
+          </div><!--.lead-->
+        </span>
+      </span>
+
+        <div class="topsidebanner">
+            <div class="widget-facebook">
+              <iframe id="facebook_iframe" class="facebook_iframe"></iframe>
+            </div><!--.idget-facebook-->
+          </div><!--.topsidebanner-->
+    </div><!--.mainheading-->
+
+<!--=========== Search ===========-->
+{% assign searchVisibleClass="" %}
+{% if page.url contains "/search" %}
+  {% assign searchVisibleClass="search-visible" %}
+{% endif %}
+<form action="/search">
+  <div id="search-wrapper" class="{{searchVisibleClass}}">
+  <div id="searchbox-container" class="container">
+    <span id="search-label">Търсене:</span>
+      <input id="search-text" type="text" name="search" placeholder="Търси..." />
+      <span id="search-close">X</span>
+  </div><!--#searchbox-dontainer-->
+</div><!--#search-wrapper-->
+</form>
+<script>
+    //alert(getUrlParameter("search"));
+    var searchTerm = getUrlParameter("search");
+    if((location.pathname=="/search") && (searchTerm))
+    {
+      document.getElementById("search-text").value = searchTerm;
+    }
+</script>
+<!-- Content
+================================================== -->
+    <div class="main-content">
+      {{ content }}
+    </div><!--.main-content-->
+  </div><!--.container-->
+
+    </div><!--.site-content-->
+</div><!--.whole-body-wrapper-->
+    <!-- Begin Footer
+================================================== -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center mt-2">
+            Copyright © {{ site.time | date: "%Y" }} {{ site.name }} &amp; <a href="http://www.alonintheworld.com"
+              target="_blank">alonintheworld</a>
+          </div><!--inner footer div-->
+        </div><!--.row-->
+      </div><!--.container-->
+    </footer>
+    <!-- End Footer
+================================================== -->
+  
+<!-- Bootstrap core JavaScript
+================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+
+  <script src="{{
+        site.baseurl
+      }}/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+  <script src="{{ site.baseurl }}/assets/js/mediumish.js"></script>
+
+  <script id="dsq-count-scr" src="//{{ site.disqus }}.disqus.com/count.js"></script>
+  </body>
+
+</html>

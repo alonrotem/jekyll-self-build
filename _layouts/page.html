@@ -1,0 +1,39 @@
+---
+layout: default
+---
+
+{% assign counter = 0 %}
+{% assign countertext = "" %}
+{% if page.category %}
+    {% for post in site.posts %}
+        {% if post.category == page.category or post.category2 == page.category %}
+            {% unless post.hidden %}
+                {% assign counter = counter | plus:1 %}
+            {% endunless %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% if counter > 0 %}
+    {% assign countertext = " (" | append: counter | append: ")" %}
+{% endif %}
+
+<section>
+    <div class="section-title">
+        <h2><span>{{ page.title }}{{ countertext }}</span></h2>
+    </div>
+
+    <div class="article-post">
+        {{content}}
+    </div>
+
+    {% if page.comments == true %}
+
+    <div id="comments" class="row mb-5">
+        <div class="col-md-8">
+            {% include disqus.html %}
+        </div>
+    </div>
+
+    {% endif %}
+
+</section>

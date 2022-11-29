@@ -1,0 +1,10 @@
+---
+---
+[   {% assign scheduleditems=false %} {% for post in site.posts %} {% if post.schedule and post.schedule != "" and post.hidden %} {% if scheduleditems%},{% endif%}
+    {
+        "page": "{{ site.baseurl }}{{ post.url }}",
+        "schedule": "{{post.schedule}}",
+        "path":"{{post.path}}"
+    }
+    {% assign scheduleditems=true %} {% endif %} {% endfor %}
+]

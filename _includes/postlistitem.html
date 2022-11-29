@@ -1,0 +1,52 @@
+{% assign author = site.authors[post.author] %}
+{% assign authorDisplayName = author.display_name %}
+{% if post.author %}
+{% assign pageauthorlowercase = post.author|downcase %}
+{% if pageauthorlowercase == "guest" and post.guestauthorname %}
+{% assign authorDisplayName = post.guestauthorname %}
+{% endif %}
+{% endif %}
+
+{% if post.image %}
+{% assign image = post.image %}
+{% if image contains "://" %}
+{% assign image = post.image %}
+{% else %}
+{% assign image = post.image | absolute_url %}
+{% endif %}
+{% endif %}
+
+{% assign pagecategory="" %}
+{% if page.category and site.data.categoriestext[page.category] %}
+{% assign pagecategory=site.data.categoriestext[page.category].name%}
+{% endif %}
+
+<a href="{{ post.url | absolute_url }}">
+    <div class="postlistitem row">
+        <div class="col-6 col-lg-2 col-md-4 col-sm-6 col-xs-6 postlistitem-imagecontainer">
+            <div class="square postlistitemimage {{pagecategory}}" style="background-image: url('{{image}}');"></div>
+        </div>
+
+        <div class="col-6 col-lg-10 col-md-8 col-sm-6 col-xs-6 postlistitem-infocontainer">
+            <div class="align-self-start">
+                <div class="postlistitem-title">{{ post.title }}</div>
+
+                <div class="postlistitem-subtitle">
+                    <span class="postlistitem-subtitle-concat">
+                        {{ post.subtitle | strip_html}}
+                    </span></div>
+            </div>
+            <div class="postlistitem-bottominfo">
+                {{ authorDisplayName }}
+
+                <span class="post-date">
+                    {% assign m = post.date | date: "%-m" %}
+                    {{ post.date | date: "%-d" }}
+                    {{site.data.months[m]}}
+                    {{ post.date | date: "%Y" }}
+                </span>
+
+            </div>
+        </div>
+    </div>
+</a>

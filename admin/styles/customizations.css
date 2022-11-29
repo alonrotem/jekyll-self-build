@@ -1,0 +1,78 @@
+#buildStatusNotificationElement
+{
+    color: white;
+    padding: 3px 18px;
+    font-size: 10pt;
+    transition: all 0.4s;
+    display: flex;
+}
+.infoleft
+{
+    float:left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;    
+}
+
+#triggerBuildLi{
+    margin: auto 0px auto 20px;
+    font-weight: bold;
+    font-size: 11pt;
+}
+
+#triggerBuildLi a{
+    color: #3A69C7;
+}
+
+.customActionText {
+    margin-left: 5px;
+}
+
+.publishingInProgress{
+    cursor: not-allowed;
+}
+
+.publishingInProgress #republishMsg {
+    color: gray;
+}
+.publishingInProgress img {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    }
+
+#triggerBuildLi a:hover{
+    color: #3A69C7;
+}
+
+#triggerBuildLi img{
+    width: 16px;
+    height: 16px;
+}
+
+.inforight
+{
+    float: right;
+}
+.build-created
+{
+    background-color: #FF6A00;
+}
+.build-started
+{
+    background-color: #B200FF;
+}
+.build-errored
+{
+    background-color: #FF0000;
+}
+
+.build-passed
+{
+    background-color: #4EC820;
+}
+
+.build-unknown
+{
+    background-color: red;
+}

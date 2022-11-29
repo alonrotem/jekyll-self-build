@@ -1,0 +1,42 @@
+{% if jekyll.environment == "production" %}
+{% assign siteurl="https://literaturnirazgovori.com" %}
+{%else%}
+{% assign siteurl = site.url %}
+{% endif %}
+
+{% if page.url contains '://' %}
+{% assign currentUrl = page.url %}
+{%else%}
+{% assign currentUrl = page.url | prepend: siteurl %}
+{% endif %}
+
+<div class="share">
+    <p>
+        Сподели в:
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u={{ currentUrl }}"
+                onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f" style="color:#3C5A99;"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ currentUrl }}"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter" style="color:#1DA1F2;"></i>
+            </a>
+        </li>
+
+    </ul>
+    {% if page.comments != false %}
+    <div class="sep">
+    </div>
+    <ul>
+        <li>
+            <a class="small smoothscroll" href="#disqus_thread"></a>
+        </li>
+    </ul>
+    {% endif %}
+</div>

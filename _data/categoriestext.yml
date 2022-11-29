@@ -1,0 +1,31 @@
+mybooks:
+  name: mybooks
+  text: Моите книги
+
+talks:
+  name: talks
+  text: Разговори за писането
+
+interviews:
+  name: interviews
+  text: Интервюта
+
+bookreviews:
+  name: bookreviews
+  text: Рецензии
+
+translations:
+  name: translations
+  text: Поезия
+
+newbooks:
+  name: newbooks
+  text: Нови книги
+
+newsevents:
+  name: newsevents
+  text: Новини и събития
+
+kolonkata-na-georgi-cankov:
+  name: kolonkata-na-georgi-cankov
+  text: Колонката на Георги Цанков

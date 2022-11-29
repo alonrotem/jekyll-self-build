@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<style>
+		/*533 x 173*/
+		/* 1336 x 852 */
+	.centralized-container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		-moz-transform: translateX(-50%) translateY(-50%);
+		-webkit-transform: translateX(-50%) translateY(-50%);
+		transform: translateX(-50%) translateY(-50%);
+	}
+
+    .cursor{
+        animation:blinkingText 1.0s infinite;
+    }
+    @keyframes blinkingText{
+        0%  {	color: red;    		}
+        49% {	color: red; 		}
+        60% {	color: transparent;	}
+        99% {	color:transparent; 	}
+        100%{   color: red;    		}
+    }
+    #appear
+    {
+    	opacity: 0;
+    	font-family: B52;
+    font-size: 18pt;
+    margin-top: 25px;    	
+    }
+
+    .flexbox
+    {
+ 	    display: flex;
+	    align-items: center;   	
+    }
+
+    .img-container
+    {
+    	display:inline-block;
+    }
+
+    .img-container img
+    {
+    	max-width: 240px;
+    }
+
+    .typewriter-container
+    {
+    	display:inline-block;
+    	font-family: B52;
+    	font-size: 34pt;
+    	width: 279px;
+    	height: 72px;
+    	margin-left: 14px;
+    }
+
+	</style>
+	<link href="./assets/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+
+<div class="centralized-container">
+	<div class="flexbox">
+	  <div class="img-container">
+	    <img src="./assets/images/logo-full-size-cropped.png" style="">
+	  </div>
+	  <div class="typewriter-container">
+	    <span id="textcontent"></span><span class="cursor">|</span>
+		<div id="appear">с Антония Апостолова</div>
+	  </div>
+	</div>
+</div>
+
+
+<script>
+	var text=0;
+	var char=0;
+	var wait = 1500;
+	var intervalwait = 0;
+	var speed = 100;
+	var opacity = 0;
+	var curtext = "Литературни разговори";
+
+	(function () {
+		setInterval(function() {
+		//1. Wait
+		if(char==0 && intervalwait <= wait) {
+			intervalwait += speed;
+		}
+		//2. Write
+		else if(char < curtext.length) {
+			document.getElementById("textcontent").innerHTML += curtext[char];
+			char++;
+		}
+		//3. Fade-in additional text
+		else
+		{
+			var appear = document.getElementById("appear");
+			if(opacity < 1)
+			{
+				opacity += 0.1;
+				appear.style.opacity = opacity;
+			}
+		}
+		}, speed);
+	})();
+</script>
+</body>
+</html>

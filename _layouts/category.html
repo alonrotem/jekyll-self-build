@@ -1,0 +1,21 @@
+---
+layout: page
+---
+<div class="categorylist">
+    <div class="container">
+
+        {% assign counter = 0 %}
+        {% for post in site.posts %}
+        {% if post.category == page.category or post.category2 == page.category %}
+            {% unless post.hidden %}
+            {% assign counter = counter | plus:1 %}
+                {% include postlistitem.html %}
+            {% endunless %}
+        {% endif %}
+        {% endfor %}
+
+        {% if counter == 0 %}
+            Няма публикувани статии под {{ page.title }}
+        {% endif %}
+    </div>
+</div>

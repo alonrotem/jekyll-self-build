@@ -1,0 +1,38 @@
+<!-- begin post -->
+{% assign author = site.authors[post.author] %}
+
+<div class="col-lg-4 col-md-6 mb-30px card-group">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="{{ post.url | absolute_url }}">
+                {% if post.image %} <img class="img-fluid" src="{% if post.image contains " ://" %}{{ post.image }}{%
+                    else %}{{ post.image | absolute_url }}{% endif %}" alt="{{ post.title }}"> {% endif %}
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title"><a class="text-dark" href="{{ post.url | absolute_url }}">{{ post.title }}</a></h2>
+            <h4 class="card-text">{{ post.subtitle | strip_html | truncatewords:30 }}</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+
+                <span class="meta-footer-thumb">
+                    <span class="postboxcategory">
+                        <!-- Those categories are one-lined, to avoid unnecessary whitespaces in the HTML -->
+                        {% assign trimmedCat2 = post.category2 | strip %}<a class="postboxcat-{{site.data.categoriestext[post.category1].name}}" href="/category/{{site.data.categoriestext[post.category].name}}">{{site.data.categoriestext[post.category].text}}</a>{% if post.category2 and trimmedCat2 != '' and trimmedCat2 != post.category  %}, <a class="postboxcat-{{site.data.categoriestext[post.category2].name}}" href="/category/{{site.data.categoriestext[post.category2].name}}">{{site.data.categoriestext[post.category2].text}}</a>{% endif %}
+                    </span>
+                    <br />
+
+                    <span class="post-date">
+                        {% assign m = post.date | date: "%-m" %}
+                        {{ post.date | date: "%-d" }}
+                        {{site.data.months[m]}}
+                        {{ post.date | date: "%Y" }}
+                    </span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->

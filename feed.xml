@@ -1,0 +1,36 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+{% if jekyll.environment == "production" %}
+{% assign siteurl="https://literaturnirazgovori.com" %}
+{%else%}
+{% assign siteurl = siteurl %}
+{% endif %}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.title | xml_escape }}</title>
+    <description>{{ site.description | xml_escape }}</description>
+    <link>{{ siteurl }}{{ site.baseurl }}/</link>
+    <atom:link href="{{ "/feed.xml"  | prepend: siteurl }}" rel="self" type="application/rss+xml"/>
+    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    <generator>Jekyll v{{ jekyll.version }}</generator>
+    {% for post in site.posts limit:20 %}
+      <item>
+        <title>{{ post.title | xml_escape }}</title>
+        <description>{{ post.subtitle  | strip_html | xml_escape }}</description>
+        <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+        <link>{{ post.url  | prepend: siteurl }}</link>
+        <img>{{ post.image  | prepend: siteurl }}</img>
+        <guid isPermaLink="true">{{ post.url  | prepend: siteurl }}</guid>
+        {% for tag in post.tags %}
+        <category>{{ tag | xml_escape }}</category>
+        {% endfor %}
+        {% for cat in post.categories %}
+        <category>{{ cat | xml_escape }}</category>
+        {% endfor %}
+      </item>
+    {% endfor %}
+  </channel>
+</rss>

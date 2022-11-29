@@ -1,0 +1,196 @@
+---
+layout: default
+title: Начало
+redirect_from:
+  - /cancel-payment.html
+image: /assets/images/logo-full-size.png
+seo_title: Литературни разговори с Антония Апостолова
+pagination: 
+  enabled: true
+---
+
+{% if page.url == "/" %}
+
+<!-- Just count...-->
+{% assign visibleposts = site.posts | where:"hidden","false" | size %}
+<!-- Total num of visible posts: {{visibleposts}} -->
+
+<!-- Featured ================================================== -->
+
+<!--=========== Banner ===========-->
+<link rel="stylesheet" href="/assets/css/magnific-popup.css">
+
+<script type="text/javascript">
+  var html5lightbox_options = {
+    bordersize: "0",
+    autoclose: true,
+    defaultwidth: 960,
+    defaultheight: 612
+  };
+  </script>
+<div id="banner-container" >
+    <div class="buyozonebanner">
+      <a class="buyozonebannerlink html5lightbox" href="/assets/videos/ozone-order.mp4">
+        <div>
+      <span class="buyText">Вече можете да поръчвате книги и тук с</span>
+      <span>
+          <img class="buyimage" src="/assets/images/ozone.png">
+      </span>
+  </div>
+  <div class="ozoneline2">
+      <span class="buyText">вижте как</span><span><img class="playbtn" src="/assets/images/ozone-play.png"></span>
+  </div>
+</a>
+</div>
+  <!--
+  <div
+    class="homepage-banner"
+    style="background-image: url('/assets/images/dead-sea-book-banner-color.png');">
+    <a href="/category/mybooks">
+      <div>
+        Новата ми книга
+      </div>
+    </a>
+  </div>-->
+  <div id="donatebox" onclick="$('#myModal').modal('show');">
+    <div>
+      <div class="donatebox-title"><b>Подкрепете ме!</b></div>
+      <div>Ако обичате да ме четете.</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ozoneModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <video controls id="video1" style="width: 100%; height: auto; margin:0 auto; frameborder:0;">
+          <source src="/assets/videos/ozone-order.mp4" type="video/mp4">
+          Your browser doesn't support HTML5 video tag.
+        </video>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        {% include support.html %}
+        <div style="border:0;" class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Затвори
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--=========== Banner ===========-->
+
+<section class="featured-posts">
+  <div class="row">
+    {% assign allposts = site.posts %} {% for post in allposts reversed %} {% if post.featured == true %} {% include
+    featuredbox.html %} {% endif %} {% endfor %}
+  </div>
+</section>
+
+{% endif %}
+
+<!-- Posts Index
+================================================== -->
+<section class="recent-posts">
+  <div class="row listrecent">
+
+    {% for post in paginator.posts %}
+
+    {% include postbox.html %}
+
+    {% endfor %}
+    </div>
+<!--
+  <div id="postscontainer" class="row listrecent"></div>
+  <div id="loading">
+    <img id="loading-img" src="{{ site.baseurl }}/assets/images/loading.svg" alt="Please wait" />
+    Зареждане... Моля Изчакайте!
+  </div>
+  <div id="paginationerror">
+    <a id="loadNext" href="javascript:;">Още...</a>
+  </div>
+-->
+
+</section>
+
+<!-- Pagination -->
+<div class="bottompagination">
+    <div class="pointerup"><i class="fa fa-caret-up"></i></div>
+    <span class="navigation" role="navigation">
+        {% include pagination.html %}
+    </span>
+</div>
+
+<script type="text/javascript" src="/assets/js/html5lightbox/html5lightbox.min.js"></script>
+<!-- infinite scroll -->
+<!--
+<script src="{{ site.baseurl }}/assets/js/infinite-scroll.js"></script>
+
+<script>
+  var nextpage = "/api/articles.json";
+  var paginationError = false;
+
+  function getTheNextPage(pageUrl) {
+    if (!pageUrl) return;
+
+    paginationError = false;
+    $("#loading").show();
+    getpage(
+      pageUrl,
+      function(page) {
+        if (page) {
+          for (var i = 0; i < page.pages.length; i++) {
+            $(htmlDecode(page.pages[i]))
+              .hide()
+              .appendTo("#postscontainer")
+              .fadeIn(800);
+          }
+          nextpage = page.next;
+        }
+        $("#loading").hide();
+      },
+      function(err) {
+        $("#loading").hide();
+        paginationError = true;
+        $("#paginationerror").show();
+      }
+    );
+  }
+
+  $(function() {
+    getTheNextPage(nextpage);
+
+    var win = $(window);
+    // Each time the user scrolls
+    win.scroll(function() {
+      // End of the document reached?
+      if ($(window).scrollTop() + $(window).height() > $(document).height() - 200) {
+        //if ($(document).height() - win.height() == win.scrollTop()) {
+        if (!paginationError) {
+          getTheNextPage(nextpage);
+        }
+      }
+    });
+
+    $("#loadNext").click(function() {
+      paginationError = false;
+      $("#paginationerror").hide();
+      getTheNextPage(nextpage);
+    });
+  });
+</script>
+-->

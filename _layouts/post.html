@@ -1,0 +1,228 @@
+---
+layout: default
+disqus: true
+archive: false
+post_class: post-template
+comments: true
+---
+
+<!-- Begin Article
+================================================== -->
+<div class="container">
+    <div class="row">
+
+        <!-- Post Share -->
+        <div class="col-md-2 pl-0">
+            <div id="postviewscontainer" class="postviews"><span id="postViews"></span></div>
+            {% include share.html %}
+        </div>
+
+
+        <!-- Post -->
+        {% assign author = site.authors[page.author] %}
+        {% assign authorDisplayName = author.display_name %}
+        {% if page.author %}
+            {% assign pageauthorlowercase = page.author|downcase %}
+            {% if pageauthorlowercase == "guest" and page.guestauthorname %}
+                {% assign authorDisplayName = page.guestauthorname %}
+            {% endif %}
+        {% endif %}
+
+
+        <div class="col-md-9 flex-first flex-md-unordered">
+            <div class="mainheading">
+                <!-- Post Title -->
+                <h1 class="posttitle">{{ page.title }}</h1>
+
+                <!--================================-->
+                <div id="subtitlecontainer">
+                    
+                    {% if page.guestauthorimage %}
+                    <div id="subtitleimagecontainer" {{guestimgdisplay}}>
+                        <a href="{{page.guestauthorimage}}" title="{{ authorDisplayName }}" data-lightbox="image-1">
+                        <img src="{{page.guestauthorimage}}" alt="{{ authorDisplayName }}">
+                    </a>
+                    </div>
+                    {% endif %}
+
+                    <div id="subtitletextcontainer">
+                        <h2 class="postsubtitle">{{ page.subtitle }}</h2>
+                    </div>
+                </div>            
+                <!--================================-->
+                
+                <div id="postviewscontainer-mobile" class="postviews"><span id="postViews-mobile"></span></div>
+            </div>
+            <div class="postinfo">
+                    {{ authorDisplayName }},
+                <small>
+                    <span class="post-date"><time class="post-date">
+                            {% assign m = page.date | date: "%-m" %}
+                            {{ page.date | date: "%-d" }}
+                            {{site.data.months[m]}}
+                            {{ page.date | date: "%Y" }}
+                        </time></span>
+                    {% if page.last_modified_at %}
+                    (Updated: <time datetime="{{ page.last_modified_at | date_to_xmlschema }}" itemprop="dateModified">{{
+                        page.last_modified_at | date: "%b %-d, %Y" }}</time>)
+                    {% endif %}
+                </small> 
+                <span class="postcategory">
+                    {% assign trimmedCat2 = page.category2 | strip %}
+                    {% if page.category %}
+                        <a class="pagecat-{{ site.data.categoriestext[page.category].name }}" href="/category/{{ site.data.categoriestext[page.category].name }}">
+                            {{ site.data.categoriestext[page.category].text }}
+                        </a>
+                    {% endif %}
+                    {% if page.category2 and trimmedCat2 != '' and trimmedCat2 != page.category  %}
+                        , <a class="pagecat-{{ site.data.categoriestext[page.category2].name }}" href="/category/{{ site.data.categoriestext[page.category2].name }}">
+                            {{ site.data.categoriestext[page.category2].text }}
+                        </a>
+                    {% endif %}
+                </span>
+            </div>
+
+            <!-- optional buy banner -->
+            {% if page.ozone-link  and site.ozone_banner_enabled %}
+            {% assign ozonelink = page.ozone-link %}
+            {% if ozonelink contains "?"   %}
+                <!-- get rid of optional querystring, to add the predefined one. before: {{ ozonelink }} -->
+                {% assign ozonelink = ozonelink  | split:'?' | first %}
+            {% endif %}
+            {% assign ozonelink = ozonelink | append: site.ozone_banner_link_suffix %}
+            <a href="{{ ozonelink }}" target="_blank">
+                <div class="buyozonebanner-post">
+                    <span class="buyText">{{ site.ozone_banner_text }}</span>
+                    <span>
+                        <img class="buyimage" src="/assets/images/ozone.png"></span>
+                </div>
+            </a>
+            {% endif %}  
+            <!-- optional buy banner -->
+
+            <!-- Post Featured Image -->
+            {% if page.image %}
+                {% assign featuredImage = page.image %}
+                {% unless featuredImage contains '://' %}
+                {% assign firstchar = featuredImage | slice: 0 %}
+                {% if firstchar != "/" %}{% assign featuredImage = featuredImage | prepend: "/" %}{% endif %}
+                {% assign featuredImage = featuredImage | prepend: siteurl %}
+                {% endunless %}
+
+                <a href="{{ featuredImage }}" data-lightbox="image-1" title='{{ page.title }}'>
+                <img class="featured-image img-fluid post-image" src="{{ featuredImage }}" alt='{{ page.title }}'>
+            </a>
+            {% endif %}
+            <!-- End Featured Image -->
+
+            <!-- Post Content -->
+            <div class="article-post" style="display:none;">
+                {{content}}
+            </div>
+
+            <script>
+                /*
+                - Make line breaks into <br/>
+                - Make paragraph breaks (marked with "==) to <p>
+                */
+                var original = $(".article-post").html();
+                //console.log(original);
+                var fixed = original
+                    .replace(/\\+\s*\\*\s*\=\=\s*\\+\s*\\*\s*/g, "NEWLINE")
+                    .replace(/<p>.*\=\=.*<\/p>/g, "NEWLINE")
+                    .replace(/<p>/g, "")
+                    .replace(/<\/p>/g, "<br/>")
+                    .replace(/NEWLINE/g, "</p><p>")
+                    .replace(/\_(.+)\_/g, "<em>$1</em>")
+                    .replace(/\*\*(.+)\*\*/g, "<strong>$1</strong>");
+                fixed = "<p>" + fixed + "</p>";
+                //console.log(fixed);
+                $(".article-post").html(fixed);
+                $(".article-post").show();
+
+                /* GET PAGE VIEWS */
+                //remove the category. In case the category was changed/moved, a regular expression is used.
+                //var pageurl = "{{ page.url }}".replace(/^\/+/, "").substr("{{ page.url }}".lastIndexOf("/" + 1)).replace(/\d{1,2}\-\d{1,2}(\-.*)/, ".*$1");
+                var pageurl = "{{ page.url }}";
+                pageurl = pageurl.replace(/^\/+/, "");
+                pageurl = pageurl.substr(pageurl.lastIndexOf("/") + 1);
+                pageurl = pageurl.replace(/\d{1,2}\-\d{1,2}(\-.*)/, ".*$1");
+
+                console.log("requesting views for: " + pageurl);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "{{site.analytics_proxy_url}}/api/ganalytics/pagevies");
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.error) {
+                            console.log("Failed to request pageviews. Error: " + response.error);
+                        }
+                        else {
+
+                            if (!(isNaN(parseInt(response.views)))) {
+                                var postviewselement = document.getElementById("postViews");
+                                var postviewscontainer = document.getElementById("postviewscontainer");
+                                postviewselement.innerText = response.views;
+                                postviewscontainer.classList.add('postviews-visible');
+
+                                var postviewselementmobile = document.getElementById("postViews-mobile");
+                                var postviewscontainermobile = document.getElementById("postviewscontainer-mobile");
+                                postviewselementmobile.innerText = response.views;
+                                postviewscontainermobile.classList.add('postviews-visible');
+                            }
+                            console.log("Post views, page " + response.page + ": " + response.views);
+                        }
+                    }
+                    else {
+                        console.log("Failed to request pageviews. Stat: " + xhr.status);
+                    }
+                };
+                //the JSON to send is optional. If not sent, the current page url will be used.
+                //It's sent here because the category is trimmed and replaced with a regex
+                xhr.send(JSON.stringify({ "page": pageurl }));
+
+            </script>
+
+            {% if page.tags %}
+            <div style="margin-bottom: 20px;">
+                <a class="alltagslink" href="/tags.html" title="Всички тагове"
+                    style="float:left; margin-right:10px;"><img src="/assets/images/bookmark-color.png"></a>
+                <div style="float:left;">
+                    <span class="tagheader">Тагове:</span>
+                    <ul class="tags">
+                        {% assign sortedTags = page.tags | sort %}
+                        {% for tag in sortedTags %}
+                        <li>
+                            <a href="{{ site.baseurl }}/tag/{{ tag | slugify }}/">{{ tag }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+        <!-- End Post -->
+
+    </div>
+</div>
+<!-- End Article
+================================================== -->
+
+
+
+<!-- Begin Comments
+================================================== -->
+<div class="container">
+    <div id="comments" class="row justify-content-center mb-5">
+        <div class="col-md-8">
+            {% include disqus.html %}
+        </div>
+    </div>
+</div>
+{% if page.comments %}
+
+{% endif %}
+<!--End Comments
+================================================== -->

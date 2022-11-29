@@ -1,0 +1,62 @@
+.hiddenPost {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.visiblePost {
+    color: white;
+    background-color: green;
+    text-align: center;
+}
+
+.tagwrapper
+{
+    border: 1px solid rgb(223, 223, 227);
+    padding: 10px 4px;
+}
+
+.tagsInputWrapper
+{
+  position: relative;
+  display: inline-block;
+}
+
+.tagsAutoCompleteSelect
+{
+  position: absolute;
+  left: 0;
+  top: 20px;
+  z-index: 3000;
+  display:none;
+  outline: none;
+}
+
+.tagsInputWrapper
+{
+  padding-left: 10px;
+}
+
+.tagsInputWrapper input
+{
+  border: 0;
+  outline: none;
+}
+
+#tags-wrapper tag
+{
+  color: rgb(122, 130, 145);
+  background-color: rgb(223, 223, 227);
+  margin: 5px;
+  padding: 5px;
+  font-size: 11pt;
+  display: inline-block;
+}
+
+#tags-wrapper .close
+{
+  margin: 3px;
+  color: darkslategray;
+  cursor: pointer;
+}

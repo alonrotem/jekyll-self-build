@@ -1,0 +1,22 @@
+---
+layout: default
+---
+<div style="margin-bottom: 20px;">
+    <a class="alltagslink" href="/tags.html" title="Всички тагове"><img src="/assets/images/bookmark-color.png"></a>
+    <span class="tagpagetitle">
+        Всички тагове</span>
+</div>
+
+{% assign tags = site.tags | sort %}
+{% for tag in tags %}
+{% assign condition= "post.tags contains '" | append: tag[0] | append: "'" %}
+{% assign visibleposts = site.posts | where_exp: "post", condition | where:"hidden","false" | size %}
+{% assign hiddenposts = site.posts | where_exp: "post", condition | where:"hidden","true" | size %}
+{%if visibleposts > 0 %}
+<span class="site-tag">
+    <a href="/tag/{{ tag | first | slugify }}/" style="font-size: {{ visibleposts  |  times: 4 | plus: 80  }}%">
+        {{ tag[0] | replace:'-', ' ' }} ({{ visibleposts }})
+    </a>
+</span>
+{% endif %}
+{% endfor %}
