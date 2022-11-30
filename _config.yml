@@ -5,7 +5,7 @@ mainlink: "https://www.facebook.com/literaturnirazgovori/"
 meta_description: "Литературни разговори с Антония Апостолова"
 logo: "assets/images/logo-book.png"
 favicon: "assets/images/logo-book.png"
-baseurl: ""
+baseurl: "jekyll-self-build/"
 google_analytics: UA-132938422-1
 disqus: "literaturnirazgovori"
 mailchimp-list: "https://wowthemes.us11.list-manage.com/subscribe/post?u=8aeb20a530e124561927d3bd8&amp;id=8c3d2d214b"
