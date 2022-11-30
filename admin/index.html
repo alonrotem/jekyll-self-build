@@ -41,10 +41,10 @@
     initCMS(configurations[env]);
 
     CMS.registerPreviewStyle("styles/custom-preview.css");
-    CMS.registerPreviewStyle("{{ site.baseurl }}/assets/css/bootstrap.min.css");
-    CMS.registerPreviewStyle("{{ site.baseurl }}/assets/css/font-awesome.css");
-    CMS.registerPreviewStyle("{{ site.baseurl }}/assets/css/google-font-faces.css");
-    CMS.registerPreviewStyle("{{ site.baseurl }}/assets/css/screen.css");
+    CMS.registerPreviewStyle("/{{ site.baseurl }}/assets/css/bootstrap.min.css");
+    CMS.registerPreviewStyle("/{{ site.baseurl }}/assets/css/font-awesome.css");
+    CMS.registerPreviewStyle("/{{ site.baseurl }}/assets/css/google-font-faces.css");
+    CMS.registerPreviewStyle("/{{ site.baseurl }}/assets/css/screen.css");
 
     // Custom controls
     RegisterTagPicker();
