@@ -148,7 +148,7 @@ jobs:
             git push
           else
             echo "No files changed, no pending push."
-         fi
+          fi
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Build with Jekyll
