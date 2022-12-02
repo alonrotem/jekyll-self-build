@@ -94,7 +94,7 @@ then
         fi
         echo "------------"
     done
-    git remote set-url --push origin "https://alonrotem:736e72ee9925d466ffa4d24f24cc062727797dea@github.com/alonrotem/jekyll-self-build"
+    git remote set-url --push origin "https://alonrotem:$GITHUB_TOKEN@github.com/alonrotem/jekyll-self-build"
     git add .
     git commit -m"Automated articles fix"
     git push
