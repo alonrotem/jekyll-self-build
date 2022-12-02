@@ -22,11 +22,16 @@ concurrency:
 
 jobs:
   # Build job
+
+  # git diff --name-only --diff-filter=acdrtux HEAD~1 HEAD
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Trigger Jenkins build
+        run: |
+          ./test.sh      
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Build with Jekyll
