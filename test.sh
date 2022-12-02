@@ -91,6 +91,9 @@ then
         fi
         echo "------------"
     done
+    git add .
+    git commit -m"Automated articles fix"
+    git push
 else
     echo "No changed files detected"
 fi
