@@ -37,7 +37,14 @@ jobs:
 
       - name: Check for changes and fix posts
         run: |
-          ./test.sh      
+          ./test.sh
+      - name: Push changes
+        run: |
+          git remote set-url --push origin "https://alonrotem:$GITHUB_TOKEN@github.com/alonrotem/jekyll-self-build"
+          git add .
+          git commit -m"Automated articles fix"
+          git push
+                    
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Build with Jekyll
