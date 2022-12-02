@@ -3,6 +3,9 @@
 #filenames as normal non-latin characters
 echo "Fetching yq..."
 git config core.quotepath false
+git config --global user.email "alrotem@gmail.com"
+git config --global user.name "Alon Rotem"
+
 wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -q -O ./yq && chmod +x ./yq
 
 echo "Scannin for change files..."
@@ -91,9 +94,11 @@ then
         fi
         echo "------------"
     done
+    git remote set-url --push origin https://alonrotem:$GITHUB_TOKEN@github.com/alonrotem/jekyll-self-build
     git add .
     git commit -m"Automated articles fix"
     git push
+    
 else
     echo "No changed files detected"
 fi
