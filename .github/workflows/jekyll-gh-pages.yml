@@ -10,10 +10,11 @@ on:
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+# permissions:
+#  contents: read
+#  pages: write
+#  id-token: write
+permissions: write-all
 
 env:
   GITHUB_TOKEN: ${{ secrets.ALON_TOKEN }}
@@ -138,16 +139,16 @@ jobs:
               echo "No changed files detected"
           fi
 
-          if [[ $fileschanged > 0 ]]
-          then
+          #if [[ $fileschanged > 0 ]]
+          #then
             echo "Pushing $fileschanged changed files..."
-            git remote set-url --push origin "https://alonrotem:$GITHUB_TOKEN@github.com/alonrotem/jekyll-self-build"
+            git remote set-url --push origin "https://alonrotem:${{ secrets.GITHUB_TOKEN }}@github.com/alonrotem/jekyll-self-build"
             git add .
             git commit -m"Automated articles fix"
             git push
-          else
-            echo "No files changed, no pending push."
-          fi
+          #else
+          #  echo "No files changed, no pending push."
+          #fi
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Build with Jekyll
